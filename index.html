@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FDP: Practical Cyber Security - Tools & Hands-on Lab</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      user-select: none;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-hidden">
+
+  <!-- Top Navigation & Progress Bar -->
+  <header class="w-full bg-slate-900/80 backdrop-blur border-b border-slate-800 px-6 py-3 flex items-center justify-between z-20">
+    <div class="flex items-center space-x-3">
+      <span class="inline-block w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></span>
+      <span class="text-xs uppercase tracking-widest font-bold text-cyan-400">Faculty Development Program (FDP)</span>
+      <span class="text-xs text-slate-500 hidden md:inline">| Practical Cyber Security (3:30 PM - 5:00 PM)</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button id="toggleNotesBtn" class="text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700">
+        📝 Speaker Notes [N]
+      </button>
+      <div class="text-xs font-mono font-semibold text-slate-400">
+        Slide <span id="currentSlideNum" class="text-cyan-400">1</span> / <span id="totalSlidesNum">12</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Bar Line -->
+  <div class="w-full bg-slate-800 h-1">
+    <div id="progressBar" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-1 transition-all duration-300" style="width: 8.33%;"></div>
+  </div>
+
+  <!-- Main Slide Canvas -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-6 md:p-10 flex items-center justify-center relative">
+
+    <!-- SLIDE 1: Title Slide -->
+    <section class="slide active flex-col justify-center items-start w-full space-y-6 glow-cyan bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Welcome everyone to this 90-minute hands-on FDP session. Emphasize that today is 100% practical: no complex installations, all tools run right in your browser.">
+      <div class="badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Online FDP Workshop • 90 Mins</div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-300 leading-tight">
+        Practical Cyber Security
+      </h1>
+      <p class="text-xl md:text-2xl font-light text-slate-300 max-w-3xl">
+        Modern Threat Landscapes, Institutional Case Studies & Browser-Based Defensive Security Hands-on
+      </p>
+      <div class="pt-6 border-t border-slate-800 w-full flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400">
+        <div>
+          <span class="text-slate-500">Session Timing:</span> <strong>3:30 PM – 5:00 PM</strong>
+        </div>
+        <div>
+          <span class="text-slate-500">Prerequisites:</span> <strong>Any Modern Web Browser (Zero Install)</strong>
+        </div>
+        <div>
+          <span class="text-slate-500">Target Audience:</span> <strong>Higher Ed Faculty & Researchers</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Agenda & Learning Path -->
+    <section class="slide flex-col justify-center items-start w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Walk through the 90-minute structure. Note that 35 minutes are reserved purely for live browser exercises.">
+      <div class="badge bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">Run of Show (90 Mins)</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Today's Session Blueprint</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full pt-2">
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start space-x-3">
+          <div class="text-cyan-400 font-mono font-bold text-base">01</div>
+          <div>
+            <h4 class="font-semibold text-white">Global Cyber Landscape & AI (15m)</h4>
+            <p class="text-xs text-slate-400 mt-1">Market growth ($300B+), AI-generated attacks, and why universities are primary targets.</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start space-x-3">
+          <div class="text-cyan-400 font-mono font-bold text-base">02</div>
+          <div>
+            <h4 class="font-semibold text-white">Recent Higher-Ed Case Studies (15m)</h4>
+            <p class="text-xs text-slate-400 mt-1">Autopsy of University of Manchester and MOVEit breaches; anatomy of credential theft.</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start space-x-3">
+          <div class="text-cyan-400 font-mono font-bold text-base">03</div>
+          <div>
+            <h4 class="font-semibold text-white">Defensive Security Stack (15m)</h4>
+            <p class="text-xs text-slate-400 mt-1">Zero-cost OSINT and triage tools: VirusTotal, URLscan, HaveIBeenPwned, Shodan.</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start space-x-3">
+          <div class="text-cyan-400 font-mono font-bold text-base">04</div>
+          <div>
+            <h4 class="font-semibold text-white">Hands-on Browser Labs (35m)</h4>
+            <p class="text-xs text-slate-400 mt-1">Live inspection: Phishing URL triage, multi-AV malware hash analysis, credential audit.</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start space-x-3 md:col-span-2">
+          <div class="text-cyan-400 font-mono font-bold text-base">05</div>
+          <div>
+            <h4 class="font-semibold text-white">Faculty Cybersecurity Guidance Book (10m)</h4>
+            <p class="text-xs text-slate-400 mt-1">7 Golden Rules of campus data hygiene, exam paper security, and immediate incident SOPs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Global Tech Growth -->
+    <section class="slide flex-col justify-center items-start w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Highlight market growth and the rapid weaponization of generative AI. Attackers no longer have poor grammar in emails.">
+      <div class="badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Industry Growth & Threat Shift</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Global Cyber Tech Growth & Trends</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full pt-2">
+        <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700 flex flex-col justify-between">
+          <div class="text-3xl font-extrabold text-cyan-400 font-mono">$300B+</div>
+          <h4 class="font-semibold text-white text-base mt-2">Market Capitalization</h4>
+          <p class="text-xs text-slate-400 mt-2">Global cyber expenditure projected by 2030, driven by cloud migration, IoT campuses, and strict privacy regulations (GDPR/DPDP).</p>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700 flex flex-col justify-between">
+          <div class="text-3xl font-extrabold text-amber-400 font-mono">1,200%+</div>
+          <h4 class="font-semibold text-white text-base mt-2">Rise in Phishing Volumes</h4>
+          <p class="text-xs text-slate-400 mt-2">Driven by generative AI tools that produce hyper-targeted spear-phishing without traditional grammatical errors.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700 flex flex-col justify-between">
+          <div class="text-3xl font-extrabold text-indigo-400 font-mono">Top 3</div>
+          <h4 class="font-semibold text-white text-base mt-2">Targeted Sector: Academia</h4>
+          <p class="text-xs text-slate-400 mt-2">Higher education ranks alongside Healthcare and Defense due to open Wi-Fi cultures, BYOD devices, and high-value research grants.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Why Universities are Targets -->
+    <section class="slide flex-col justify-center items-start w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Explain the asymmetry: universities are built on open information sharing, which makes them inherently more vulnerable than heavily locked-down banks.">
+      <div class="badge bg-rose-500/10 text-rose-400 border border-rose-500/30">Vulnerability Matrix</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Why Are Academic Institutions Prime Targets?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full pt-2">
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+          <div class="flex items-center space-x-2 text-rose-400 font-semibold mb-1">
+            <span>🔓</span><span>Open Culture vs. Perimeter Defense</span>
+          </div>
+          <p class="text-xs text-slate-300">Campuses foster open internet access for thousands of transient students and visiting researchers, making strict firewall lockdowns challenging.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+          <div class="flex items-center space-x-2 text-amber-400 font-semibold mb-1">
+            <span>💎</span><span>High-Value Intellectual Property</span>
+          </div>
+          <p class="text-xs text-slate-300">Funded research in biotech, quantum computing, aerospace, defense grants, and unpublished papers are prime targets for nation-state espionage.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+          <div class="flex items-center space-x-2 text-cyan-400 font-semibold mb-1">
+            <span>📱</span><span>Unmanaged BYOD Proliferation</span>
+          </div>
+          <p class="text-xs text-slate-300">Thousands of unpatched personal laptops, smartphones, and departmental IoT sensors connecting directly to university network subnets daily.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+          <div class="flex items-center space-x-2 text-indigo-400 font-semibold mb-1">
+            <span>🔑</span><span>Credential Re-use & Shadow IT</span>
+          </div>
+          <p class="text-xs text-slate-300">Departments spinning up independent servers, cloud databases, and faculty using institutional emails across third-party websites without MFA.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Case Study Autopsies -->
+    <section class="slide flex-col justify-center items-start w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Present the two case studies. Emphasize that the MOVEit breach did not require hackers to breach university firewalls directly; it was a third-party supply chain attack.">
+      <div class="badge bg-red-500/10 text-red-400 border border-red-500/30">Forensic Case Studies</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Recent Breaches & The Academic Fallout</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full pt-2">
+        <div class="p-5 rounded-xl bg-slate-800/70 border-l-4 border-l-rose-500 border-slate-700">
+          <div class="text-xs uppercase tracking-wider text-rose-400 font-bold">Case 01 • Internal Pivot</div>
+          <h3 class="text-lg font-bold text-white mt-1">Univ. of Manchester Ransomware</h3>
+          <ul class="text-xs text-slate-300 space-y-2 mt-3 list-disc list-inside">
+            <li><strong>Entry Vector:</strong> Compromised staff login credentials via targeted spear-phishing.</li>
+            <li><strong>Lateral Movement:</strong> Hackers traversed unsegmented internal subnets to access research databases.</li>
+            <li><strong>Impact:</strong> 40,000+ student & staff records leaked, including NHS clinical trial datasets; direct extortion emails sent to students.</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-800/70 border-l-4 border-l-amber-500 border-slate-700">
+          <div class="text-xs uppercase tracking-wider text-amber-400 font-bold">Case 02 • Supply Chain</div>
+          <h3 class="text-lg font-bold text-white mt-1">The MOVEit Transfer Zero-Day</h3>
+          <ul class="text-xs text-slate-300 space-y-2 mt-3 list-disc list-inside">
+            <li><strong>Entry Vector:</strong> SQL injection vulnerability in third-party file transfer software.</li>
+            <li><strong>Scope:</strong> Dozens of prestigious universities and education pension funds compromised.</li>
+            <li><strong>Impact:</strong> Massive exfiltration of employee payroll, SSNs, and banking data without penetrating campus servers.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Defensive Security Tool Catalog -->
+    <section class="slide flex-col justify-center items-start w-full space-y-5 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Explain the tools. Reassure faculty that these are industry-standard tools used by security operations centers (SOCs) that also have 100% free web tiers.">
+      <div class="badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Free Defensive Tool Stack</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Browser-Based Security Tools Catalog</h2>
+      <div class="w-full overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700 text-slate-400">
+              <th class="py-2 px-3">Tool Name</th>
+              <th class="py-2 px-3">Core Use Case</th>
+              <th class="py-2 px-3">Signup / Requirements</th>
+              <th class="py-2 px-3">Cost Model</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-200">
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-cyan-400">VirusTotal</td>
+              <td class="py-2.5 px-3">Multi-engine file hash, URL & IP analysis (70+ engines)</td>
+              <td class="py-2.5 px-3">Zero signup needed for web search; free API key</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-semibold">100% Free</span> community tier</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-cyan-400">URLscan.io</td>
+              <td class="py-2.5 px-3">Safe sandboxed URL inspection, screenshots, DOM dump</td>
+              <td class="py-2.5 px-3">Direct search; free account via GitHub/Google</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-semibold">Free</span> (5,000 public scans/mo)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-cyan-400">HaveIBeenPwned</td>
+              <td class="py-2.5 px-3">Auditing credential exposure in historical breaches</td>
+              <td class="py-2.5 px-3">Instant web search; no account needed</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-semibold">100% Free</span> individual searches</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-cyan-400">MXToolbox</td>
+              <td class="py-2.5 px-3">Email header parsing, SPF / DKIM / DMARC verification</td>
+              <td class="py-2.5 px-3">Direct web utility</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-semibold">Free</span> web tools</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-cyan-400">Shodan</td>
+              <td class="py-2.5 px-3">Discovering exposed campus servers, cameras, and open ports</td>
+              <td class="py-2.5 px-3">Free basic search; academic email upgrade</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-semibold">Free</span> basic ($1 academic lifetime)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Hands-on Overview -->
+    <section class="slide flex-col justify-center items-center text-center w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-cyan-500/30 glow-cyan" data-notes="Transitions the session from lecture to interactive lab. Ask everyone to open their browsers now.">
+      <div class="badge bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Hands-on Workshop Phase (35 Mins)</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">Live Guided Browser Labs</h2>
+      <p class="text-slate-300 max-w-2xl text-base">
+        Open your web browser right now. You will conduct 3 live security investigations with zero command line or software setup required.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl pt-4">
+        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+          <div class="text-cyan-400 font-bold mb-1">LAB 1</div>
+          <div class="text-sm font-semibold text-white">URLscan.io</div>
+          <div class="text-xs text-slate-400 mt-1">Phishing URL Triage</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+          <div class="text-cyan-400 font-bold mb-1">LAB 2</div>
+          <div class="text-sm font-semibold text-white">VirusTotal</div>
+          <div class="text-xs text-slate-400 mt-1">File Hash Forensics</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+          <div class="text-cyan-400 font-bold mb-1">LAB 3</div>
+          <div class="text-sm font-semibold text-white">HaveIBeenPwned</div>
+          <div class="text-xs text-slate-400 mt-1">Credential Audit</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Lab 1 - URLscan.io -->
+    <section class="slide flex-col justify-center items-start w-full space-y-5 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Demonstrate URLscan.io on screen while participants follow along. Point out the HTTP transactions and screenshots.">
+      <div class="badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Hands-on Lab 1 • 12 Minutes</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Triaging Suspicious URLs safely with URLscan.io</h2>
+      <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 w-full text-xs text-slate-300">
+        <strong class="text-cyan-400">Target Scenario:</strong> You receive an email: <em>"Urgent: Campus ERP password expired. Click here to verify your identity within 24 hours."</em>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full pt-1">
+        <div class="space-y-3">
+          <h4 class="font-bold text-sm text-white">Step-by-Step Execution:</h4>
+          <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside">
+            <li>Open <code class="text-cyan-300 bg-slate-800 px-1 py-0.5 rounded">https://urlscan.io</code></li>
+            <li>Click on the <strong>Search</strong> tab at the top.</li>
+            <li>Search query: <code class="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">page.domain:login*</code> or inspect existing public scans.</li>
+            <li>Click on any resulting scan to open the forensic dossier.</li>
+          </ol>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+          <h4 class="font-bold text-xs text-cyan-400 uppercase tracking-wide">Key Forensic Evidence to Note:</h4>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Automated Screenshot:</strong> Renders page layout without client risk.</li>
+            <li><strong>Server Geolocation & IP:</strong> Unrelated hosting country/AS name.</li>
+            <li><strong>TLS Certificate:</strong> Free automated vs. genuine university CA.</li>
+            <li><strong>Outbound Form Post:</strong> Reveals where credentials are sent.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Lab 2 - VirusTotal -->
+    <section class="slide flex-col justify-center items-start w-full space-y-5 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Have attendees copy and paste the two SHA-256 hashes provided on this slide to see the clean vs. malicious detection difference.">
+      <div class="badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Hands-on Lab 2 • 13 Minutes</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Multi-AV File & Hash Triage with VirusTotal</h2>
+      <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 w-full text-xs text-slate-300">
+        <strong class="text-cyan-400">Target Scenario:</strong> A student submits a project report as an archive or document containing an unexpected embedded executable.
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full pt-1">
+        <div class="space-y-3">
+          <h4 class="font-bold text-sm text-white">Sample Hashes for Comparison:</h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded bg-slate-800 border border-slate-700">
+              <span class="text-emerald-400 font-semibold block">Benign File Hash (Clean Utility):</span>
+              <code class="text-[11px] text-slate-300 break-all select-all">b29352c3c6f272a2cf640108343f87fcf96adfa67e0e470fa54002e1c312fb10</code>
+            </div>
+            <div class="p-2.5 rounded bg-slate-800 border border-slate-700">
+              <span class="text-rose-400 font-semibold block">EICAR Standard Antivirus Test Hash:</span>
+              <code class="text-[11px] text-slate-300 break-all select-all">275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f</code>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+          <h4 class="font-bold text-xs text-cyan-400 uppercase tracking-wide">Inspection Tabs on VirusTotal:</h4>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Detection:</strong> 0/70 vs 60+/70 engine consensus.</li>
+            <li><strong>Details:</strong> PE sections, entropy analysis, and compiler metadata.</li>
+            <li><strong>Relations:</strong> Contacted IPs, DNS domains, dropped binaries.</li>
+            <li><strong>Behavior:</strong> Registry modifications and sandbox screenshots.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Lab 3 - Have I Been Pwned -->
+    <section class="slide flex-col justify-center items-start w-full space-y-5 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="Demonstrate how passwords get cracked through dictionary attacks and credential stuffing when using weak passwords like College@2024.">
+      <div class="badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Hands-on Lab 3 • 10 Minutes</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Credential Leaks & Password Strength Audit</h2>
+      <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 w-full text-xs text-slate-300">
+        <strong class="text-cyan-400">Target Scenario:</strong> Assessing exposure of university email domains and personal passwords in dark web breach dumps.
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full pt-1">
+        <div class="space-y-3">
+          <h4 class="font-bold text-sm text-white">Part A: Email Address Exposure</h4>
+          <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside">
+            <li>Navigate to <code class="text-cyan-300 bg-slate-800 px-1 py-0.5 rounded">https://haveibeenpwned.com</code></li>
+            <li>Enter your secondary or historical email address.</li>
+            <li>Note the breaches (LinkedIn, Canva, Adobe) and data types leaked (plain text vs hashed).</li>
+          </ol>
+        </div>
+        <div class="space-y-3">
+          <h4 class="font-bold text-sm text-white">Part B: The Pwned Passwords Audit</h4>
+          <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside">
+            <li>Go to <code class="text-cyan-300 bg-slate-800 px-1 py-0.5 rounded">haveibeenpwned.com/passwords</code></li>
+            <li>Test common password variants (e.g., <code class="text-rose-300">College@2023</code>).</li>
+            <li>Observe how k-Anonymity searches 800M+ real leaked passwords safely.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: The 7 Golden Rules for Faculty -->
+    <section class="slide flex-col justify-center items-start w-full space-y-5 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800" data-notes="This is the core takeaway slide. Walk through each rule clearly. Emphasize rule 4 (Question Paper custody) which directly impacts faculty credibility.">
+      <div class="badge bg-amber-500/10 text-amber-400 border border-amber-500/30">Institutional Cyber Hygiene</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">7 Golden Rules for Higher-Ed Faculty</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full pt-1 text-xs">
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">1.</span>
+          <div><strong class="text-white">MFA Everywhere:</strong> Enable Authenticator App (Google/Microsoft) 2FA; avoid SMS OTPs.</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">2.</span>
+          <div><strong class="text-white">Strict Identity Separation:</strong> Never use official <code class="text-cyan-300">.edu</code> email for shopping or social platforms.</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">3.</span>
+          <div><strong class="text-white">Verify Authority Cues:</strong> Dean/VC "urgent emergency" emails must be verbally verified.</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">4.</span>
+          <div><strong class="text-white">Exam Paper Custody:</strong> Store question papers only in AES-256 encrypted containers (7-Zip).</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">5.</span>
+          <div><strong class="text-white">Isolate Student Executables:</strong> Run student coding submissions in Docker or Google Colab.</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2">
+          <span class="text-cyan-400 font-bold">6.</span>
+          <div><strong class="text-white">Lab Network Segmentation:</strong> Keep student lab PCs on a VLAN isolated from faculty ERP.</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/70 border border-slate-700 flex items-start space-x-2 md:col-span-2">
+          <span class="text-rose-400 font-bold">7.</span>
+          <div><strong class="text-white">Immediate Incident Response:</strong> Entered credentials by mistake? Disconnect Wi-Fi immediately, reset SSO password from your phone, and inform Campus IT.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: Wrap-up & Q&A -->
+    <section class="slide flex-col justify-center items-center text-center w-full space-y-6 bg-slate-900/50 p-8 md:p-12 rounded-2xl border border-slate-800 glow-cyan" data-notes="Open for questions. Provide links to the reference kit and thank the organizers.">
+      <div class="badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Session Conclusion (5 Mins)</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">Questions & Discussion</h2>
+      <p class="text-slate-300 max-w-xl text-base">
+        Cyber security is not merely an IT department responsibility — it is an active institutional discipline practiced by every faculty member.
+      </p>
+      <div class="pt-6 border-t border-slate-800 w-full max-w-lg flex flex-col items-center space-y-2 text-xs text-slate-400">
+        <div><strong>Key Links:</strong> virustotal.com • urlscan.io • haveibeenpwned.com</div>
+        <div>Thank you for participating in this FDP session!</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Speaker Notes Tray (Toggled with [N] or Button) -->
+  <aside id="speakerNotesPanel" class="hidden bg-slate-900 border-t border-slate-800 px-6 py-4 text-xs z-30 transition-all">
+    <div class="max-w-6xl mx-auto flex items-start justify-between">
+      <div class="flex-1">
+        <span class="text-cyan-400 font-bold uppercase tracking-wider block mb-1">Speaker Notes for Current Slide:</span>
+        <p id="speakerNotesContent" class="text-slate-300 leading-relaxed font-sans text-sm">Notes will appear here...</p>
+      </div>
+      <button id="closeNotesBtn" class="text-slate-400 hover:text-white ml-4 font-bold">✕ Close</button>
+    </div>
+  </aside>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="w-full bg-slate-900/90 border-t border-slate-800 px-6 py-3 flex items-center justify-between z-20">
+    <div class="text-xs text-slate-500 hidden sm:block">
+      Navigation: <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">→</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Space</kbd>
+    </div>
+    <div class="flex items-center space-x-3 mx-auto sm:mx-0">
+      <button id="prevBtn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition border border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
+        ← Previous
+      </button>
+      <button id="nextBtn" class="px-5 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition shadow-lg shadow-cyan-600/30 disabled:opacity-40 disabled:cursor-not-allowed">
+        Next →
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const currentSlideNum = document.getElementById('currentSlideNum');
+    const totalSlidesNum = document.getElementById('totalSlidesNum');
+    const progressBar = document.getElementById('progressBar');
+    const speakerNotesPanel = document.getElementById('speakerNotesPanel');
+    const speakerNotesContent = document.getElementById('speakerNotesContent');
+    const toggleNotesBtn = document.getElementById('toggleNotesBtn');
+    const closeNotesBtn = document.getElementById('closeNotesBtn');
+
+    let currentIndex = 0;
+    totalSlidesNum.textContent = slides.length;
+
+    function updateSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+      currentIndex = index;
+      currentSlideNum.textContent = index + 1;
+      
+      const pct = ((index + 1) / slides.length) * 100;
+      progressBar.style.width = `${pct}%`;
+
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+
+      // Update speaker notes
+      const notes = slides[index].getAttribute('data-notes') || 'No specific notes for this slide.';
+      speakerNotesContent.textContent = notes;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) updateSlide(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < slides.length - 1) updateSlide(currentIndex + 1);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        if (currentIndex < slides.length - 1) updateSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        if (currentIndex > 0) updateSlide(currentIndex - 1);
+      } else if (e.key.toLowerCase() === 'n') {
+        speakerNotesPanel.classList.toggle('hidden');
+      }
+    });
+
+    toggleNotesBtn.addEventListener('click', () => {
+      speakerNotesPanel.classList.toggle('hidden');
+    });
+
+    closeNotesBtn.addEventListener('click', () => {
+      speakerNotesPanel.classList.add('hidden');
+    });
+
+    // Initialize
+    updateSlide(0);
+  </script>
+</body>
+</html>
